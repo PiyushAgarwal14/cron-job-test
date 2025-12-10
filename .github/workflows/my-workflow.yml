@@ -2,7 +2,7 @@ name: Daily Cron Job
 
 on:
   schedule:
-    - cron: '30 10 * * *'  # 4:00 PM IST daily
+    - cron: '45 10 * * *'  # 4:00 PM IST daily
   workflow_dispatch:       # allows manual run
 
 jobs:
