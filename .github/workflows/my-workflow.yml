@@ -2,7 +2,7 @@ name: Daily Cron Job
 
 on:
   schedule:
-    - cron: '45 10 * * *'  # 4:00 PM IST daily
+    - cron: '55 10 * * *'  # 4:00 PM IST daily
   workflow_dispatch:       # allows manual run
 
 jobs:
@@ -43,4 +43,4 @@ jobs:
           git config --local user.name "GitHub Action"
           git add run-count.txt
           git commit -m "Increment run count to $COUNT"
-          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
