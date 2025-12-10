@@ -2,7 +2,8 @@ name: Daily Cron Job
 
 on:
   schedule:
-    - cron: '0 10 * * *'  # Runs daily at 15:30 IST
+    - cron: '30 10 * * *'  # 4:00 PM IST daily
+  workflow_dispatch:       # allows manual run
 
 jobs:
   daily-job:
@@ -31,6 +32,7 @@ jobs:
       - name: Run your script
         run: |
           echo "Hello! This cron job is running."
+          # Replace this with your actual commands
 
       - name: Increment run count
         run: |
