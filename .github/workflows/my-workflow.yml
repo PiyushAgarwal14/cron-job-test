@@ -1,9 +1,8 @@
 name: Daily Cron Job
 
-# Run this workflow on a schedule
 on:
   schedule:
-    - cron: '0 0 * * *'  # This means every day at 00:00 UTC
+    - cron: '0 10 * * *'  # Runs daily at 15:30 IST
 
 jobs:
   daily-job:
@@ -13,7 +12,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Run a script
+      - name: Initialize run count
+        run: |
+          if [ ! -f run-count.txt ]; then
+            echo "0" > run-count.txt
+          fi
+
+      - name: Check run count
+        id: check_count
+        run: |
+          COUNT=$(cat run-count.txt)
+          echo "Current run count: $COUNT"
+          if [ "$COUNT" -ge 387 ]; then
+            echo "Run count limit reached. Exiting."
+            exit 0
+          fi
+
+      - name: Run your script
         run: |
           echo "Hello! This cron job is running."
-          # You can replace this with any command you want
+
+      - name: Increment run count
+        run: |
+          COUNT=$(cat run-count.txt)
+          COUNT=$((COUNT+1))
+          echo $COUNT > run-count.txt
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add run-count.txt
+          git commit -m "Increment run count to $COUNT"
+          git push
