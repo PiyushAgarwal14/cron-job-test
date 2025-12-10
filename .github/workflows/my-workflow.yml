@@ -46,4 +46,6 @@ jobs:
           git config --local user.name "GitHub Action"
           git add run-count.txt
           git commit -m "Increment run count to $COUNT"
+          
+          # Correct way to pass the token in the push URL
           git push https://$PAT_TOKEN@github.com/${{ github.repository }}.git
