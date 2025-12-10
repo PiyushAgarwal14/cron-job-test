@@ -37,7 +37,7 @@ jobs:
 
       - name: Increment run count
         env:
-          PAT_TOKEN: ${{ secrets.cron-job }}   # Using the PAT_TOKEN secret here
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}   # Using the PAT_TOKEN secret here
         run: |
           COUNT=$(cat run-count.txt)
           COUNT=$((COUNT+1))
