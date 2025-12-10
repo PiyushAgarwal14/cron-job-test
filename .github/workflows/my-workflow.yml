@@ -3,7 +3,7 @@ name: Daily Cron Job
 on:
   schedule:
     - cron: '30 10 * * *'  # 4:00 PM IST daily
-  workflow_dispatch:
+  workflow_dispatch:  # allows manual trigger
 
 jobs:
   daily-job:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          persist-credentials: false   # important for manual token usage
+          persist-credentials: false   # Allow the use of personal access token
 
       - name: Initialize run count
         run: |
@@ -33,14 +33,17 @@ jobs:
       - name: Run your script
         run: |
           echo "Hello! This cron job is running."
+          # Replace this with your actual commands
 
       - name: Increment run count
         env:
-  PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-
-run: |
-  git config --local user.email "action@github.com"
-  git config --local user.name "GitHub Action"
-  git add run-count.txt
-  git commit -m "Increment run count to $COUNT"
-  git push https://$PAT_TOKEN@github.com/${{ github.repository }}.git
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}   # Using the PAT_TOKEN secret here
+        run: |
+          COUNT=$(cat run-count.txt)
+          COUNT=$((COUNT+1))
+          echo $COUNT > run-count.txt
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add run-count.txt
+          git commit -m "Increment run count to $COUNT"
+          git push https://$PAT_TOKEN@github.com/${{ github.repository }}.git
