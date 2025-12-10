@@ -3,7 +3,7 @@ name: Daily Cron Job
 on:
   schedule:
     - cron: '30 10 * * *'  # 4:00 PM IST daily
-  workflow_dispatch:       # manual run allowed
+  workflow_dispatch:
 
 jobs:
   daily-job:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          persist-credentials: false
+          persist-credentials: false   # important for manual token usage
 
       - name: Initialize run count
         run: |
@@ -22,7 +22,6 @@ jobs:
           fi
 
       - name: Check run count
-        id: check_count
         run: |
           COUNT=$(cat run-count.txt)
           echo "Current run count: $COUNT"
@@ -34,9 +33,10 @@ jobs:
       - name: Run your script
         run: |
           echo "Hello! This cron job is running."
-          # replace with your actual commands
 
       - name: Increment run count
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # pass token as environment variable
         run: |
           COUNT=$(cat run-count.txt)
           COUNT=$((COUNT+1))
@@ -45,4 +45,4 @@ jobs:
           git config --local user.name "GitHub Action"
           git add run-count.txt
           git commit -m "Increment run count to $COUNT"
-          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
