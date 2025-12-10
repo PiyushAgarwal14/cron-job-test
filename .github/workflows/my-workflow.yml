@@ -1,0 +1,19 @@
+name: Daily Cron Job
+
+# Run this workflow on a schedule
+on:
+  schedule:
+    - cron: '0 0 * * *'  # This means every day at 00:00 UTC
+
+jobs:
+  daily-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run a script
+        run: |
+          echo "Hello! This cron job is running."
+          # You can replace this with any command you want
