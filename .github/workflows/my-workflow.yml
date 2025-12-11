@@ -42,8 +42,8 @@ jobs:
           COUNT=$(cat run-count.txt)
           COUNT=$((COUNT+1))
           echo $COUNT > run-count.txt
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "piyushagarwalplay@gmail.com"
+          git config --local user.name "PiyushAgarwal"
           git add run-count.txt
           git commit -m "Increment run count to $COUNT"
           
